@@ -1,4 +1,3 @@
-// ─── DOM REFS ───────────────────────────────
 const $ = (sel) => document.querySelector(sel);
 const onboarding = $('#onboarding');
 const usernameInput = $('#usernameInput');
@@ -16,7 +15,6 @@ const myRoleBadge = $('#myRoleBadge');
 const userSelect = $('#userSelect');
 const togglePartnerRoleBtn = $('#togglePartnerRole');
 
-// ─── STATE ──────────────────────────────────
 let ws = null;
 let myUser = null;
 let onlineUsers = new Map();
@@ -27,13 +25,11 @@ let sessionId = sessionStorage.getItem('chat_session_id');
 let storedUsername = sessionStorage.getItem('chat_username');
 let myRole = 'write';
 
-// ─── AUTO-RECONNECT ON REFRESH ──────────────
 if (sessionId && storedUsername) {
   onboarding.style.display = 'none';
   connect(storedUsername);
 }
 
-// ─── ONBOARDING ─────────────────────────────
 usernameInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') startBtn.click();
 });
@@ -49,7 +45,6 @@ startBtn.addEventListener('click', () => {
   }, 300);
 });
 
-// ─── WEBSOCKET CONNECTION ───────────────────
 function connect(username) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   ws = new WebSocket(`${protocol}://${location.host}`);
@@ -82,7 +77,6 @@ function connect(username) {
   };
 }
 
-// ─── MESSAGE HANDLER ───────────────────────
 function handleServerMessage(msg) {
   switch (msg.type) {
     case 'system':
@@ -182,7 +176,6 @@ function handleSystemEvent(msg) {
   }
 }
 
-// ─── UI HELPERS ─────────────────────────────
 function setStatus(state, text) {
   statusDot.className = 'status-dot ' + state;
   statusText.textContent = text;
@@ -285,7 +278,7 @@ function addFileMessage(fileName, content, isSelf, from, timestamp) {
   fileEl.className = 'msg-file';
   fileEl.style.cursor = 'pointer';
   fileEl.innerHTML = `
-    <span class="msg-file-icon">📄</span>
+ <span class="msg-file-icon"></span>
     <div>
       <div class="msg-file-name">${escapeHtml(fileName)}</div>
       <div class="msg-file-size">Tap to download</div>
@@ -339,7 +332,6 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ─── SEND MESSAGE ──────────────────────────
 function sendMessage() {
   const text = msgInput.value.trim();
   if (!text || !ws || ws.readyState !== 1) return;
@@ -375,9 +367,8 @@ msgInput.addEventListener('input', () => {
   }
 });
 
-// ─── ADMIN ROLE TOGGLE ─────────────────────
 function updateToolbar() {
-  const roleEmoji = { admin: '👑 Admin', write: '✍️ Write', read: '👁 Read' };
+ const roleEmoji = { admin: ' Admin', write: '️ Write', read: ' Read' };
   myRoleBadge.textContent = roleEmoji[myRole] || myRole;
   myRoleBadge.style.color = myRole === 'admin' ? '#f59e0b' : myRole === 'read' ? '#ef4444' : '#22c55e';
 
@@ -403,7 +394,7 @@ userSelect.addEventListener('change', () => {
   const targetId = parseInt(userSelect.value);
   const targetUser = onlineUsers.get(targetId);
   if (targetUser) {
-    const action = targetUser.role === 'read' ? '🔓 Set Write' : '🔒 Set Read-only';
+ const action = targetUser.role === 'read' ? ' Set Write' : ' Set Read-only';
     togglePartnerRoleBtn.textContent = action;
   }
 });
@@ -418,7 +409,6 @@ togglePartnerRoleBtn.addEventListener('click', () => {
   }
 });
 
-// ─── FILE ATTACHMENTS ──────────────────────
 attachBtn.addEventListener('click', () => attachMenu.classList.toggle('visible'));
 
 document.addEventListener('click', (e) => {
@@ -454,7 +444,6 @@ fileInput.addEventListener('change', () => {
   fileInput.value = '';
 });
 
-// ─── LIGHTBOX ──────────────────────────────
 const lightbox = $('#lightbox');
 const lightboxImg = $('#lightboxImg');
 const lightboxDownload = $('#lightboxDownload');

@@ -7,7 +7,6 @@
   <title>StrangerChat — Random WebSocket Chat</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ─── RESET & BASE ────────────────────────── */
     *,
     *::before,
     *::after {
@@ -51,7 +50,6 @@
       overflow: hidden;
     }
 
-    /* ─── MAIN CONTAINER ──────────────────────── */
     .app {
       width: 100%;
       max-width: 480px;
@@ -73,7 +71,6 @@
       }
     }
 
-    /* ─── HEADER ──────────────────────────────── */
     .header {
       display: flex;
       align-items: center;
@@ -177,7 +174,6 @@
       color: var(--text-primary);
     }
 
-    /* ─── TOOLBAR ─────────────────────────────── */
     .toolbar {
       display: flex;
       align-items: center;
@@ -227,7 +223,6 @@
       font-weight: 500;
     }
 
-    /* ─── MESSAGES AREA ───────────────────────── */
     .messages {
       flex: 1;
       overflow-y: auto;
@@ -422,7 +417,6 @@
       }
     }
 
-    /* ─── INPUT AREA ──────────────────────────── */
     .input-area {
       display: flex;
       align-items: flex-end;
@@ -522,7 +516,6 @@
       display: none;
     }
 
-    /* ─── ONBOARDING OVERLAY ──────────────────── */
     .onboarding {
       position: absolute;
       inset: 0;
@@ -628,7 +621,6 @@
       transform: translateY(0);
     }
 
-    /* ─── ATTACH MENU ─────────────────────────── */
     .attach-menu {
       position: absolute;
       bottom: 70px;
@@ -673,7 +665,6 @@
       font-size: 18px;
     }
 
-    /* ─── LIGHTBOX (fullscreen image view) ─── */
     .lightbox {
       position: fixed;
       inset: 0;
@@ -762,14 +753,14 @@
     <img id="lightboxImg" src="" alt="Full size">
     <div class="lightbox-actions">
       <a class="lightbox-btn" id="lightboxDownload" href="" download="image" target="_blank">⬇ Save Image</a>
-      <button class="lightbox-btn" id="lightboxClose">✕ Close</button>
+ <button class="lightbox-btn" id="lightboxClose"> Close</button>
     </div>
   </div>
 
   <div class="app">
     <!-- Onboarding Screen -->
     <div class="onboarding" id="onboarding">
-      <div class="onboarding-logo">💬</div>
+ <div class="onboarding-logo"></div>
       <h1>StrangerChat</h1>
       <p>Chat with random strangers over WebSockets. Telegram vibes, Omegle energy.</p>
       <input type="text" class="username-input" id="usernameInput" placeholder="Pick a username…" maxlength="20"
@@ -779,7 +770,7 @@
 
     <!-- Header -->
     <div class="header">
-      <div class="header-avatar" id="partnerAvatar">🌐</div>
+ <div class="header-avatar" id="partnerAvatar"></div>
       <div class="header-info">
         <div class="header-name" id="partnerName">Global Chat</div>
         <div class="header-status">
@@ -795,7 +786,7 @@
     <div class="toolbar" id="toolbar">
       <span class="role-label" style="flex:1">You: <strong id="myRoleBadge">—</strong></span>
       <select id="userSelect" style="display:none; margin-right:6px; font-size:11px; padding:3px; background:rgba(255,255,255,0.04); color:#e4e4e7; border:1px solid rgba(255,255,255,0.06); border-radius:4px; max-width:140px;"></select>
-      <button class="role-btn" id="togglePartnerRole" style="display:none;" title="Toggle selected user role">🔒 Toggle Role</button>
+ <button class="role-btn" id="togglePartnerRole" style="display:none;" title="Toggle selected user role"> Toggle Role</button>
     </div>
 
     <!-- Chat Messages -->
@@ -814,13 +805,13 @@
     <!-- Attachment Menu -->
     <div class="attach-menu" id="attachMenu">
       <button class="attach-option" data-type="image">
-        <span>🖼️</span> Photo
+ <span>️</span> Photo
       </button>
       <button class="attach-option" data-type="document">
-        <span>📄</span> Document
+ <span></span> Document
       </button>
       <button class="attach-option" data-type="audio">
-        <span>🎵</span> Audio
+ <span></span> Audio
       </button>
     </div>
 
@@ -829,7 +820,7 @@
       <button class="attach-btn" id="attachBtn" title="Attach file">+</button>
       <input type="file" class="file-input" id="fileInput">
       <textarea class="msg-input" id="msgInput" placeholder="Type a message…" rows="1" disabled></textarea>
-      <button class="send-btn" id="sendBtn" disabled title="Send">➤</button>
+ <button class="send-btn" id="sendBtn" disabled title="Send"></button>
     </div>
   </div>
 

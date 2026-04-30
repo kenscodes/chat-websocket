@@ -15,7 +15,6 @@ const config = require('./src/config');
 const state = require('./src/state');
 const messaging = require('./src/messaging');
 
-// ─── HTTP SERVER ──────────────────────────────────────────
 const server = http.createServer((req, res) => {
   let filePath = req.url === '/' ? '/index.html' : req.url;
   filePath = path.join(__dirname, 'public', filePath);
@@ -29,7 +28,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-// ─── WEBSOCKET SERVER ─────────────────────────────────────
 const wss = new WebSocketServer({ server });
 
 wss.on('connection', (ws) => {
@@ -40,7 +38,6 @@ wss.on('connection', (ws) => {
     try { msg = JSON.parse(raw); } catch { return; }
 
     if (msg.type === 'reconnect' && msg.sessionId && state.getSession(msg.sessionId)) {
-      // ── RECONNECT ──
       sessionId = msg.sessionId;
       const session = state.getSession(sessionId);
 
@@ -73,7 +70,6 @@ wss.on('connection', (ws) => {
       ws.on('message', (rawMsg) => messaging.handleMessage(sessionId, rawMsg));
       
     } else {
-      // ── NEW USER ──
       sessionId = crypto.randomUUID();
       const isFirst = state.getAllSessions().size === 0;
       
@@ -115,7 +111,6 @@ wss.on('connection', (ws) => {
   ws.on('error', () => { if (sessionId) handleDisconnect(sessionId); });
 });
 
-// ─── DISCONNECT HANDLER ───────────────────────────────────
 function handleDisconnect(sessionId) {
   const session = state.getSession(sessionId);
   if (!session) return;
@@ -124,7 +119,7 @@ function handleDisconnect(sessionId) {
   console.log(`[~] User #${session.id} disconnected — grace period started (${config.RECONNECT_GRACE_MS / 1000}s)`);
 
   session.disconnectTimer = setTimeout(() => {
-    console.log(`[✗] User #${session.id} did not reconnect — session expired`);
+ console.log(`[] User #${session.id} did not reconnect — session expired`);
     
     const wasAdmin = session.role === 'admin';
     state.deleteSession(sessionId);
@@ -133,7 +128,7 @@ function handleDisconnect(sessionId) {
       const nextAdmin = state.getOldestSession();
       if (nextAdmin) {
         nextAdmin.role = 'admin';
-        console.log(`[👑] User #${nextAdmin.id} promoted to admin (succession)`);
+ console.log(`[] User #${nextAdmin.id} promoted to admin (succession)`);
         
         if (nextAdmin.ws) {
           messaging.send(nextAdmin.ws, {
@@ -163,7 +158,6 @@ function handleDisconnect(sessionId) {
   }, config.RECONNECT_GRACE_MS);
 }
 
-// ─── START ────────────────────────────────────────────────
 server.listen(config.PORT, () => {
-  console.log(`\n  🚀 Global Group Chat server running at http://localhost:${config.PORT}\n`);
+ console.log(`\n Global Group Chat server running at http://localhost:${config.PORT}\n`);
 });

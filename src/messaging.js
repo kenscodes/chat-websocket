@@ -29,13 +29,12 @@ function handleMessage(sessionId, rawMsg) {
   if (!session) return;
 
   switch (msg.type) {
-    // ── Text / Media ──
     case 'text':
     case 'audio':
     case 'document':
     case 'image': {
       if (session.role === 'read') {
-        return send(session.ws, { type: 'error', message: '🚫 Read-only users cannot send messages.' });
+ return send(session.ws, { type: 'error', message: ' Read-only users cannot send messages.' });
       }
 
       const envelope = {
@@ -52,7 +51,6 @@ function handleMessage(sessionId, rawMsg) {
       break;
     }
 
-    // ── Typing Indicator ──
     case 'typing': {
       broadcast({
         type: 'typing',
@@ -62,10 +60,9 @@ function handleMessage(sessionId, rawMsg) {
       break;
     }
 
-    // ── Role Change (admin-only) ──
     case 'role': {
       if (session.role !== 'admin') {
-        return send(session.ws, { type: 'error', message: '🚫 Only admins can change roles.' });
+ return send(session.ws, { type: 'error', message: ' Only admins can change roles.' });
       }
 
       const targetId = msg.targetId;
