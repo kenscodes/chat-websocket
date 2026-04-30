@@ -1,0 +1,16 @@
+{
+  "name": "chat-websocket-global",
+  "version": "2.0.0",
+  "description": "A Global WebSocket group chat system optimized for free Render.com deployment",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
